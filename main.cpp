@@ -66,10 +66,11 @@ int main()
 {
     srand(time(0));
     player p("PLAYER", 25, 5);
-    enemy e("Enemy", 12, 4);
+    enemy e("Goblin", 12, 4);
     boss b("Boss", 35, 5);
 
     cout << "=== Combat Begins ===\n\n";
+    cout <<"MONSTER  ENCOUNTERED 'GOBLIN'\n";
 
     while (p.getHP() > 0 && e.getHP() > 0) {
         cout << "Player HP: " << p.getHP() << "\t" << e.getName() << " HP: " << e.getHP() << endl;
@@ -81,6 +82,7 @@ int main()
         if (rand() % 10 == 0) {
             cout <<"SKILL :[Lifesteal] Activated \n"; 
             p.increaseHP(2, 5); 
+            cout << "Player HP: " << p.getHP() << "\t" << e.getName() << " HP: " << e.getHP() << endl;
         }
 
         e.attack(p);
@@ -89,7 +91,8 @@ int main()
             break;
         }
     }
-
+    p.usePotion();
+    cout <<"Player's HP: "<<p.getHP()<<"\n";
     while (p.getHP() > 0 && b.getHP() > 0) {
         cout << "Player HP: " << p.getHP() << "\t" << b.getName() << " HP: " << b.getHP() << endl;
         p.attack(b);
@@ -100,7 +103,9 @@ int main()
         if (rand() % 10 == 0) {
             cout <<"SKILL :[Lifesteal] Activated \n"; 
             p.increaseHP(2, 5); 
-        }
+            cout << "Player HP: " << p.getHP() << "\t" << b.getName() << " HP: " << b.getHP() << endl;
+        }    
+
 
         b.attack(p);
         if (p.getHP() <= 0) {
@@ -108,8 +113,7 @@ int main()
             break;
         }
     }
-    p.usePotion();
-    cout <<"Player's HP="<<p.getHP();
+
 
     cout << "\n=== Combat Ends ===\n";
     return 0;
