@@ -38,7 +38,21 @@ class player :public character
 {
     public:
     player (string n,int h,int a):character(n,h,a){}
-    
+    int numPotions =2;
+    void usePotion() {
+        if (numPotions > 0) {
+            cout << name << " uses a potion and restores 5 HP.\n";
+            hp += 5;
+        }
+        else{
+            cout <<"no potions left";
+        }
+    }
+    void increaseHP(int minIncrease, int maxIncrease) {
+        int increase = rand() % (maxIncrease - minIncrease + 1) + minIncrease;
+        cout << name << " gains " << increase << " HP!\n";
+        hp += increase;
+    }
 };
 class enemy : public character {
 public:
@@ -51,9 +65,9 @@ public:
 int main()
 {
     srand(time(0));
-    player p("NEW_PLAYER", 20, 3);
+    player p("PLAYER", 25, 5);
     enemy e("Enemy", 12, 4);
-    boss b("Boss", 25, 5);
+    boss b("Boss", 35, 5);
 
     cout << "=== Combat Begins ===\n\n";
 
@@ -64,6 +78,10 @@ int main()
             cout << e.getName() << " defeated!\n";
             break;
         }
+        if (rand() % 10 == 0) {
+            cout <<"SKILL :[Lifesteal] Activated \n"; 
+            p.increaseHP(2, 5); 
+        }
 
         e.attack(p);
         if (p.getHP() <= 0) {
@@ -71,6 +89,27 @@ int main()
             break;
         }
     }
+
+    while (p.getHP() > 0 && b.getHP() > 0) {
+        cout << "Player HP: " << p.getHP() << "\t" << b.getName() << " HP: " << b.getHP() << endl;
+        p.attack(b);
+        if (b.getHP() <= 0) {
+            cout << b.getName() << " defeated!\n";
+            break;
+        }
+        if (rand() % 10 == 0) {
+            cout <<"SKILL :[Lifesteal] Activated \n"; 
+            p.increaseHP(2, 5); 
+        }
+
+        b.attack(p);
+        if (p.getHP() <= 0) {
+            cout << "Player defeated...\n";
+            break;
+        }
+    }
+    p.usePotion();
+    cout <<"Player's HP="<<p.getHP();
 
     cout << "\n=== Combat Ends ===\n";
     return 0;
