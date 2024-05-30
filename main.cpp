@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include<cstdlib>
+#include<ctime>
 using namespace std;
 class character
 {
@@ -48,18 +50,28 @@ public:
 };
 int main()
 {
-    player p("NEW_PLAYER", 100, 10);
-    enemy e("Enemy", 50, 5);
-    boss b("Boss", 200, 20);
+    srand(time(0));
+    player p("NEW_PLAYER", 20, 3);
+    enemy e("Enemy", 12, 4);
+    boss b("Boss", 25, 5);
 
-    p.attack(e);
-    cout << "Enemy HP after player's attack: " << e.getHP() << endl;
+    cout << "=== Combat Begins ===\n\n";
 
-    e.attack(p);
-    cout << "Player HP after enemy's attack: " << p.getHP() << endl;
+    while (p.getHP() > 0 && e.getHP() > 0) {
+        cout << "Player HP: " << p.getHP() << "\t" << e.getName() << " HP: " << e.getHP() << endl;
+        p.attack(e);
+        if (e.getHP() <= 0) {
+            cout << e.getName() << " defeated!\n";
+            break;
+        }
 
-    b.attack(p);
-    cout << "Player HP after boss's attack: " << p.getHP() << endl;
+        e.attack(p);
+        if (p.getHP() <= 0) {
+            cout << "Player defeated...\n";
+            break;
+        }
+    }
 
+    cout << "\n=== Combat Ends ===\n";
     return 0;
 }
